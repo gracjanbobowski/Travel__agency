@@ -1,10 +1,7 @@
 package com.example.travel_agency.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +21,11 @@ public class Hotel {
     private int hotelStars;
 
     private String hotelDescription;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "city_id")
+    private City city;
 
     public Hotel(Long hotelId, String hotelName, int hotelStars, String hotelDescription) {
         this.hotelId = hotelId;

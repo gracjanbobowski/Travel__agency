@@ -1,9 +1,6 @@
 package com.example.travel_agency.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,9 +17,14 @@ public class Country {
 
     private String countryName;
 
-    public Country(Long countryId, String countryName) {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "continent_id")
+    private Continent continent;
+
+    public Country(Long countryId, String countryName, Continent continent) {
         this.countryId = countryId;
         this.countryName = countryName;
+        this.continent = continent;
     }
 
     public Country() {
