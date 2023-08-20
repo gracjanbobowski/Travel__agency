@@ -1,6 +1,6 @@
 package com.example.travel_agency.controller;
 
-import com.example.travel_agency.model.Continent;
+import com.example.travel_agency.model.*;
 import com.example.travel_agency.service.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -32,11 +32,35 @@ public class RestApiController {
         this.tripService = tripService;
     }
 
-//    @PostMapping("/continents")
-//    public ResponseEntity<Continent> createContinent(@Valid @RequestBody Continent continent) {
-//        ContinentService.addContinent(continent)
-//        return new ResponseEntity<>(continent, HttpStatus.CREATED);
-//    }
+    @PostMapping("/continents")
+    public ResponseEntity<Continent> createContinent(@Valid @RequestBody Continent continent) {
+        ContinentService.addContinent(continent);
+        return new ResponseEntity<>(continent, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/countries")
+    public ResponseEntity<Country> createCountry(@Valid @RequestBody Country country) {
+        CountryService.addCountry(country);
+        return new ResponseEntity<>(country, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/cities")
+    public ResponseEntity<City> createCity(@Valid @RequestBody City city) {
+        CityService.addCity(city);
+        return new ResponseEntity<>(city, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/hotels")
+    public ResponseEntity<Hotel> createHotel(@Valid @RequestBody Hotel hotel) {
+        HotelService.addHotel(hotel);
+        return new ResponseEntity<>(hotel, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/airport")
+    public ResponseEntity<Airport>  createAirport(@Valid @RequestBody Airport airport) {
+        AirportService.addAirport(airport);
+        return new ResponseEntity<>(airport, HttpStatus.CREATED);
+    }
 
 
 
