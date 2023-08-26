@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+section {
+    margin: 2rem;
+}
+
+.tour {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tour img {
+    max-width: 100%;
+}
+
+.tour h3 {
+    margin: 0.5rem 0;
+}
+
+.tour p {
+    margin: 0.5rem 0;
+}
+
+.tour a {
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    padding: 0.3rem 0.5rem;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.tour a:hover {
+    background-color: #555;
+}
