@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -27,17 +28,17 @@ public class Trip {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate departureDate;
-
+    @NotEmpty
     private int tripDays;
-
+    @NotEmpty
     private int kidPrice;
-
+    @NotEmpty
     private int adultPrice;
-
+    @NotEmpty
     private boolean tripPromote;
-
+    @NotEmpty
     private int kidsPlaces;
-
+    @NotEmpty
     private int AdultPlaces;
 
 

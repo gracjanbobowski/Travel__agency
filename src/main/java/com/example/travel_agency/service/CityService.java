@@ -1,7 +1,6 @@
 package com.example.travel_agency.service;
 
 import com.example.travel_agency.model.City;
-import com.example.travel_agency.model.Country;
 import com.example.travel_agency.respositories.CityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +14,14 @@ public class CityService {
 
     City city;
 
-    CityRepository cityRepository;
+    static CityRepository cityRepository;
 
     public CityService(City city) {
         this.city = city;
     }
 
     @Transactional
-    public void addCity(City city) { cityRepository.save(city);
+    public void addCity() { cityRepository.save(city);
     }
 
     public void removeCity(City city) {cityRepository.delete(city);}

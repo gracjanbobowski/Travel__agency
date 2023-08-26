@@ -1,6 +1,7 @@
 package com.example.travel_agency.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +15,7 @@ public class Airport {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long airportId;
-
+    @NotEmpty
     private String airportName;
 
     @OneToOne(cascade = CascadeType.ALL)
