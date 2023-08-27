@@ -56,5 +56,28 @@ import org.springframework.web.bind.annotation.PostMapping;
             // Logika obsługi formularza dodawania wycieczki
             return "redirect:/"; // Przekierowanie na stronę główną po dodaniu wycieczki
         }
+
+        @GetMapping("/login")
+        public String showLoginForm() {
+            return "login"; // Zwraca nazwę widoku logowania (login.html)
+        }
+
+        @PostMapping("/login")
+        public String processLogin() {
+            // Tutaj można dodać logikę weryfikacji danych logowania
+            // Jeśli dane są poprawne, przekieruj na odpowiednią stronę
+            // W przeciwnym razie można wyświetlić błąd lub przekierować z powrotem do formularza logowania
+            return "redirect:/dashboard"; // Przykładowe przekierowanie po poprawnym zalogowaniu
+        }
+
+        @GetMapping("/dashboard")
+        public String showDashboard() {
+            // Logika wyświetlania panelu administracyjnego
+            return "dashboard"; // Zwraca nazwę widoku panelu administracyjnego (dashboard.html)
+        }
+        @GetMapping("/custom-login") // Zmieniona ścieżka URL
+        public String showLoginPage() {
+            return "login"; // Nazwa pliku HTML dla strony logowania
+        }
     }
 
