@@ -22,61 +22,66 @@ import javax.sql.DataSource;
 public class Security {
 
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails gbobo = User.builder()
-                .username("gbobo")
-                .password("{noop}test123")
-                .roles("USER")
-                .build();
-
-        UserDetails sda = User.builder()
-                .username("sda")
-                .password("{noop}test123")
-                .roles("USER", "ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(gbobo, sda);
-    }
-}
-
 //    @Bean
-//    public UserDetailsManager userDetailsManager(DataSource dataSource) {
-//        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-//        jdbcUserDetailsManager.setUsersByUsernameQuery(
-//                "select user_id, pw, active from members where user_id=?"
-//        );
-//        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-//                "select user_id, role from roles where user_id=?"
-//        );
-//        return jdbcUserDetailsManager;
+//    public InMemoryUserDetailsManager userDetailsManager() {
+//        UserDetails gbobo = User.builder()
+//                .username("gbobo")
+//                .password("{noop}test123")
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails sda = User.builder()
+//                .username("sda")
+//                .password("{noop}test123")
+//                .roles("USER", "ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(gbobo, sda);
 //    }
 //}
-//
-//
-//
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests( config ->
-//                config
-//                        .requestMatchers(HttpMethod.GET, "/").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/login").hasRole("USER")
+
+    @Bean
+    public UserDetailsManager userDetailsManager(DataSource dataSource) {
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        jdbcUserDetailsManager.setUsersByUsernameQuery(
+                "select username, password, true from users where username = ?");
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
+                "select username, authority from authorities where username = ?");
+        return jdbcUserDetailsManager;
+    }
+
+
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests( config ->
+                        config
+                                .requestMatchers(HttpMethod.GET, "/css/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/js/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/login").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/home").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/index").hasAnyRole("OWNER", "PROPERTY_MANAGER", "ADMIN")
+                                //      .requestMatchers(HttpMethod.GET, "/home2").hasRole("OWNER")
+                                .requestMatchers(HttpMethod.GET, "/owner").permitAll()
+
 //
 //                        .requestMatchers(HttpMethod.GET, "/api/owners").hasRole("USER")
 //                        .requestMatchers(HttpMethod.POST, "/api/owner").hasRole("USER")
+//                        .requestMatchers(HttpMethod.POST, "/api/createVet").hasRole("VET")
 //                        .requestMatchers(HttpMethod.POST, "/api/createSpeciality").hasRole("ADMIN")
-//        ).logout( logout -> logout.permitAll());;
-//
-////                http.formLogin(Customizer.withDefaults());
-//        http.formLogin(form -> form
-//                .loginPage("/login")
-//                .loginProcessingUrl("/authenticateUser")
-//                .permitAll());
-//        http.httpBasic(Customizer.withDefaults());
-//
-//        http.csrf(csrf -> csrf.disable());
-//        return http.build();
-//    }
-//}
+        ).logout( logout -> logout.logoutUrl("/logout"));
+
+        http.formLogin(Customizer.withDefaults());
+/*                http.formLogin(form -> form
+                    .loginPage("/login")
+                    .loginProcessingUrl("/authenticateUser") //admin-login
+                    .permitAll());
+                http.httpBasic(Customizer.withDefaults());*/
+
+        http.csrf(csrf -> csrf.disable());
+        return http.build();
+    }
+}
 
 

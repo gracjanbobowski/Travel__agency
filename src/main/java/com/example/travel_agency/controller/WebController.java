@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
         // Obsługuje żądanie wyświetlenia strony głównej
         @GetMapping("/")
         public String showHomePage() {
+            System.out.println("/showHomePage()");
             return "index"; // Zwraca nazwę widoku (bez rozszerzenia .html)
         }
 
         // Obsługuje żądanie konfiguracji oferty wycieczek
         @PostMapping("/configure-offer")
         public String configureOffer() {
+            System.out.println("/configureOffer()");
             // Logika obsługi formularza konfiguracji oferty
             return "redirect:/"; // Przekierowanie na stronę główną po zapisaniu konfiguracji
         }
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
         // Obsługuje żądanie wyszukiwania wycieczek
         @GetMapping("/search-tours")
         public String searchTours() {
+            System.out.println("/searchTours()");
             // Logika obsługi formularza wyszukiwania wycieczek
             return "redirect:/"; // Przekierowanie na stronę główną z wynikami wyszukiwania
         }
@@ -32,6 +35,7 @@ import org.springframework.web.bind.annotation.PostMapping;
         // Obsługuje żądanie zakupu wycieczki
         @PostMapping("/purchase-tour")
         public String purchaseTour() {
+            System.out.println("/purchaseTour()");
             // Logika obsługi formularza zakupu wycieczki
             return "redirect:/"; // Przekierowanie na stronę główną po dokonaniu zakupu
         }
@@ -39,6 +43,7 @@ import org.springframework.web.bind.annotation.PostMapping;
         // Obsługuje żądanie dodatkowych usług
         @PostMapping("/additional-services")
         public String additionalServices() {
+            System.out.println("/additionalServices()");
             // Logika obsługi formularza dodatkowych usług
             return "redirect:/"; // Przekierowanie na stronę główną po zapisaniu usług
         }
@@ -46,6 +51,7 @@ import org.springframework.web.bind.annotation.PostMapping;
         // Obsługuje żądanie konfiguracji obostrzeń
         @PostMapping("/configure-restrictions")
         public String configureRestrictions() {
+            System.out.println("/configureRestrictions()");
             // Logika obsługi formularza konfiguracji obostrzeń
             return "redirect:/"; // Przekierowanie na stronę główną po zapisaniu obostrzeń
         }
@@ -55,12 +61,14 @@ import org.springframework.web.bind.annotation.PostMapping;
         // Obsługuje żądanie dodawania wycieczki
         @PostMapping("/add-tour")
         public String addTour() {
+            System.out.println("/addTour()");
             // Logika obsługi formularza dodawania wycieczki
             return "redirect:/"; // Przekierowanie na stronę główną po dodaniu wycieczki
         }
 
         @GetMapping("/login")
         public String showLoginForm() {
+            System.out.println("/showLoginForm()");
             return "login"; // Zwraca nazwę widoku logowania (login.html)
         }
 
@@ -74,21 +82,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 
         @GetMapping("/dashboard")
         public String showDashboard() {
+            System.out.println("/showDashboard()");
             // Logika wyświetlania panelu administracyjnego
             return "dashboard"; // Zwraca nazwę widoku panelu administracyjnego (dashboard.html)
         }
 
         @GetMapping("/configure-offer")
         public String configureOfferForm() {
+            System.out.println("/configureOfferForm()");
             return "configure-offer"; // Zwraca nazwę widoku konfiguracji oferty (configure-offer.html)
         }
 
         @GetMapping("/admin-login")
         public String showAdminLoginForm() {
+            System.out.println("/showAdminLoginForm()");
             return "admin-login"; // Zwraca nazwę widoku logowania administratora (admin-login.html)
         }
-        @PostMapping("/login")
-        public String processLogin() {
+
+        @PostMapping("/admin-login")
+        public String processAdminLogin() {
+            System.out.println("/processAdminLogin()");
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             boolean isAdmin = authentication.getAuthorities().stream()
@@ -97,10 +110,10 @@ import org.springframework.web.bind.annotation.PostMapping;
             if (isAdmin) {
                 return "redirect:/configure-offer"; // Przekierowanie do strony konfiguracji oferty
             } else {
-                return "redirect:/dashboard"; // Przekierowanie na dashboard
+                return "redirect:/index"; // Przekierowanie na dashboard
             }
         }
-
     }
+
 
 
