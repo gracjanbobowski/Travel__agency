@@ -16,37 +16,6 @@
     <!-- Zawartość strony głównej -->
     <p>Tutaj umieść treść strony głównej.</p>
 
-    <h2 class="mt-5">Konfigurowanie oferty wycieczek (administrator)</h2>
-    <!-- Formularz konfiguracji oferty -->
-    <form th:action="@{/configure-offer}" method="post">
-        <div class="form-group">
-            <label for="tourName">Nazwa wycieczki</label>
-            <input type="text" class="form-control" id="tourName" name="tourName" required>
-        </div>
-        <div class="form-group">
-            <label for="tourDescription">Opis wycieczki</label>
-            <textarea class="form-control" id="tourDescription" name="tourDescription" rows="3" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="tourPrice">Cena wycieczki</label>
-            <input type="number" class="form-control" id="tourPrice" name="tourPrice" required>
-        </div>
-        <div class="form-group">
-            <label for="tourDuration">Czas trwania (ilość dni)</label>
-            <input type="number" class="form-control" id="tourDuration" name="tourDuration" required>
-        </div>
-        <div class="form-group">
-            <label for="tourType">Typ wyżywienia</label>
-            <select class="form-control" id="tourType" name="tourType" required>
-                <option value="BB">Śniadanie (BB)</option>
-                <option value="HB">Śniadanie i obiadokolacja (HB)</option>
-                <option value="FB">Śniadanie, obiad i kolacja (FB)</option>
-                <option value="AI">All Inclusive (AI)</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Dodaj wycieczkę</button>
-    </form>
-
     <h2 class="mt-5">Wyszukiwanie wycieczek po zadanych kryteriach</h2>
     <!-- Formularz wyszukiwania wycieczek -->
     <form th:action="@{/search-tours}" method="get">
