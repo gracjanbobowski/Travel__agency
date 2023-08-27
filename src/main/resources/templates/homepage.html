@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Wycieczek</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">System Wycieczek</a>
+</nav>
+
+<div class="container mt-4">
+    <h2>Strona główna</h2>
+    <!-- Zawartość strony głównej -->
+    <p>Tutaj umieść treść strony głównej.</p>
+
+    <h2 class="mt-5">Konfigurowanie oferty wycieczek (administrator)</h2>
+    <!-- Formularz konfiguracji oferty -->
+    <form th:action="@{/configure-offer}" method="post">
+        <div class="form-group">
+            <label for="tourName">Nazwa wycieczki</label>
+            <input type="text" class="form-control" id="tourName" name="tourName" required>
+        </div>
+        <div class="form-group">
+            <label for="tourDescription">Opis wycieczki</label>
+            <textarea class="form-control" id="tourDescription" name="tourDescription" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="tourPrice">Cena wycieczki</label>
+            <input type="number" class="form-control" id="tourPrice" name="tourPrice" required>
+        </div>
+        <div class="form-group">
+            <label for="tourDuration">Czas trwania (ilość dni)</label>
+            <input type="number" class="form-control" id="tourDuration" name="tourDuration" required>
+        </div>
+        <div class="form-group">
+            <label for="tourType">Typ wyżywienia</label>
+            <select class="form-control" id="tourType" name="tourType" required>
+                <option value="BB">Śniadanie (BB)</option>
+                <option value="HB">Śniadanie i obiadokolacja (HB)</option>
+                <option value="FB">Śniadanie, obiad i kolacja (FB)</option>
+                <option value="AI">All Inclusive (AI)</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj wycieczkę</button>
+    </form>
+
+    <h2 class="mt-5">Wyszukiwanie wycieczek po zadanych kryteriach</h2>
+    <!-- Formularz wyszukiwania wycieczek -->
+    <form th:action="@{/search-tours}" method="get">
+        <div class="form-group">
+            <label for="destination">Miejsce docelowe</label>
+            <input type="text" class="form-control" id="destination" name="destination">
+        </div>
+        <div class="form-group">
+            <label for="departureDate">Data wyjazdu</label>
+            <input type="date" class="form-control" id="departureDate" name="departureDate">
+        </div>
+        <div class="form-group">
+            <label for="returnDate">Data powrotu</label>
+            <input type="date" class="form-control" id="returnDate" name="returnDate">
+        </div>
+        <div class="form-group">
+            <label for="minDuration">Minimalna ilość dni</label>
+            <input type="number" class="form-control" id="minDuration" name="minDuration">
+        </div>
+        <div class="form-group">
+            <label for="maxPrice">Maksymalna cena</label>
+            <input type="number" class="form-control" id="maxPrice" name="maxPrice">
+        </div>
+        <button type="submit" class="btn btn-primary">Szukaj wycieczek</button>
+    </form>
+
+    <h2 class="mt-5">„Zakup” wycieczki – wyliczenie końcowej kwoty wg ilości osób</h2>
+    <!-- Formularz zakupu wycieczki -->
+    <form th:action="@{/purchase-tour}" method="post">
+        <div class="form-group">
+            <label for="tour">Wybierz wycieczkę</label>
+            <select class="form-control" id="tour" name="tour">
+                <!-- Dodaj opcje wyboru wycieczek, np. za pomocą Thymeleaf iterując po dostępnych wycieczkach -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="adults">Liczba dorosłych</label>
+            <input type="number" class="form-control" id="adults" name="adults" min="1">
+        </div>
+        <div class="form-group">
+            <label for="children">Liczba dzieci</label>
+            <input type="number" class="form-control" id="children" name="children" min="0">
+        </div>
+        <button type="submit" class="btn btn-primary">Oblicz kwotę</button>
+    </form>
+    <p th:if="${finalAmount != null}" class="mt-3">
+        Kwota do zapłaty: <span th:text="${finalAmount}"></span>
+    </p>
+
+    <h2 class="mt-5">Dodatkowe usługi</h2>
+    <!-- Opcjonalne: Formularz wyboru dodatkowych usług -->
+    <form th:action="@{/additional-services}" method="post">
+        <div class="form-group">
+            <label for="tour">Wybierz wycieczkę</label>
+            <select class="form-control" id="tour" name="tour">
+                <!-- Dodaj opcje wyboru wycieczek, np. za pomocą Thymeleaf iterując po dostępnych wycieczkach -->
+            </select>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="carRental" name="carRental">
+            <label class="form-check-label" for="carRental">Wynajem auta</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="excursions" name="excursions">
+            <label class="form-check-label" for="excursions">Wycieczki fakultatywne</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Zapisz usługi</button>
+    </form>
+
+    <h2 class="mt-5">Konfiguracja obostrzeń związanych z paszportem i wizami</h2>
+    <!-- Opcjonalne: Formularz konfiguracji obostrzeń -->
+    <form th:action="@{/configure-restrictions}" method="post">
+        <div class="form-group">
+            <label for="country">Wybierz kraj</label>
+            <select class="form-control" id="country" name="country">
+                <!-- Dodaj opcje wyboru krajów, np. za pomocą Thymeleaf iterując po dostępnych krajach -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="passportRequired">Czy wymagany paszport?</label>
+            <select class="form-control" id="passportRequired" name="passportRequired">
+                <option value="true">Tak</option>
+                <option value="false">Nie</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="visaRequired">Czy wymagana wiza?</label>
+            <select class="form-control" id="visaRequired" name="visaRequired">
+                <option value="true">Tak</option>
+                <option value="false">Nie</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Zapisz obostrzenia</button>
+    </form>
+
+    <h2 class="mt-5">Podstawowe byty</h2>
+    <!-- Sekcja dla Kontynentów, Krajów, Miast, Hoteli, Lotnisk -->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Typ</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Akcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Dla kontynentów -->
+            <tr th:each="continent : ${continents}">
+                <td>Kontynent</td>
+                <td th:text="${continent.name}">Nazwa kontynentu</td>
+                <td th:text="${continent.description}">Opis kontynentu</td>
+                <td>
+                    <a th:href="@{/edit-continent/{id}(id=${continent.id})}" class="btn btn-primary btn-sm">Edytuj</a>
+                    <a th:href="@{/delete-continent/{id}(id=${continent.id})}" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+            </tr>
+
+            <!-- Dla krajów -->
+            <tr th:each="country : ${countries}">
+                <td>Kraj</td>
+                <td th:text="${country.name}">Nazwa kraju</td>
+                <td th:text="${country.description}">Opis kraju</td>
+                <td>
+                    <a th:href="@{/edit-country/{id}(id=${country.id})}" class="btn btn-primary btn-sm">Edytuj</a>
+                    <a th:href="@{/delete-country/{id}(id=${country.id})}" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+            </tr>
+
+            <!-- Dla miast -->
+            <tr th:each="city : ${cities}">
+                <td>Miasto</td>
+                <td th:text="${city.name}">Nazwa miasta</td>
+                <td th:text="${city.description}">Opis miasta</td>
+                <td>
+                    <a th:href="@{/edit-city/{id}(id=${city.id})}" class="btn btn-primary btn-sm">Edytuj</a>
+                    <a th:href="@{/delete-city/{id}(id=${city.id})}" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+            </tr>
+
+            <!-- Dla hoteli -->
+            <tr th:each="hotel : ${hotels}">
+                <td>Hotel</td>
+                <td th:text="${hotel.name}">Nazwa hotelu</td>
+                <td th:text="${hotel.description}">Opis hotelu</td>
+                <td>
+                    <a th:href="@{/edit-hotel/{id}(id=${hotel.id})}" class="btn btn-primary btn-sm">Edytuj</a>
+                    <a th:href="@{/delete-hotel/{id}(id=${hotel.id})}" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+            </tr>
+
+            <!-- Dla lotnisk -->
+            <tr th:each="airport : ${airports}">
+                <td>Lotnisko</td>
+                <td th:text="${airport.name}">Nazwa lotniska</td>
+                <td th:text="${airport.description}">Opis lotniska</td>
+                <td>
+                    <a th:href="@{/edit-airport/{id}(id=${airport.id})}" class="btn btn-primary btn-sm">Edytuj</a>
+                    <a th:href="@{/delete-airport/{id}(id=${airport.id})}" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <h2 class="mt-5">Wycieczka</h2>
+    <!-- Formularz dodawania wycieczki -->
+    <form th:action="@{/add-tour}" method="post">
+        <div class="form-group">
+            <label for="fromCity">Skąd (Miasto, Lotnisko)</label>
+            <input type="text" class="form-control" id="fromCity" name="fromCity">
+        </div>
+        <div class="form-group">
+            <label for="toCity">Dokąd (Miasto, Hotel, Lotnisko)</label>
+            <input type="text" class="form-control" id="toCity" name="toCity">
+        </div>
+        <div class="form-group">
+            <label for="departureDate">Data wyjazdu</label>
+            <input type="date" class="form-control" id="departureDate" name="departureDate">
+        </div>
+        <div class="form-group">
+            <label for="returnDate">Data powrotu</label>
+            <input type="date" class="form-control" id="returnDate" name="returnDate">
+        </div>
+        <div class="form-group">
+            <label for="duration">Ilość dni</label>
+            <input type="number" class="form-control" id="duration" name="duration">
+        </div>
+        <div class="form-group">
+            <label for="type">Typ</label>
+            <select class="form-control" id="type" name="type">
+                <option value="BB">BB</option>
+                <option value="HB">HB</option>
+                <option value="FB">FB</option>
+                <option value="AI">AI</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="priceAdult">Cena za dorosłego</label>
+            <input type="number" class="form-control" id="priceAdult" name="priceAdult">
+        </div>
+        <div class="form-group">
+            <label for="priceChild">Cena za dziecko</label>
+            <input type="number" class="form-control" id="priceChild" name="priceChild">
+        </div>
+        <div class="form-group">
+            <label for="promoted">Promowana</label>
+            <input type="checkbox" class="form-control" id="promoted" name="promoted">
+        </div>
+        <div class="form-group">
+            <label for="seatsAdult">Ilość miejsc dorosłych</label>
+            <input type="number" class="form-control" id="seatsAdult" name="seatsAdult">
+        </div>
+        <div class="form-group">
+            <label for="seatsChild">Ilość miejsc dla dzieci</label>
+            <input type="number" class="form-control" id="seatsChild" name="seatsChild">
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj wycieczkę</button>
+    </form>
+
+
+    <h2 class="mt-5">Zakup wycieczki</h2>
+    <!-- Formularz zakupu wycieczki -->
+    <form th:action="@{/purchase-tour}" method="post">
+        <div class="form-group">
+            <label for="selectedTour">Wybierz wycieczkę</label>
+            <select class="form-control" id="selectedTour" name="selectedTour">
+                <!-- Tutaj możesz użyć Thymeleaf do iteracji i wyświetlenia dostępnych wycieczek -->
+                <!-- Przykład: -->
+                <option th:each="tour : ${availableTours}" th:value="${tour.id}" th:text="${tour.name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="numberOfAdults">Liczba osób dorosłych</label>
+            <input type="number" class="form-control" id="numberOfAdults" name="numberOfAdults">
+        </div>
+        <div class="form-group">
+            <label for="numberOfChildren">Liczba dzieci</label>
+            <input type="number" class="form-control" id="numberOfChildren" name="numberOfChildren">
+        </div>
+        <!-- Tutaj możesz dodać pola dla innych informacji związanych z zakupem -->
+        <button type="submit" class="btn btn-primary">Zakup wycieczkę</button>
+    </form>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
