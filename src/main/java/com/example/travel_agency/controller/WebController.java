@@ -1,13 +1,23 @@
 package com.example.travel_agency.controller;
 
+
+import com.example.travel_agency.model.Tour;
+import com.example.travel_agency.respositories.TourRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-    @Controller
+import java.math.BigDecimal;
+
+@Controller
     public class WebController {
+    @Autowired
+    private TourRepository tourRepository;
 
         // Obsługuje żądanie wyświetlenia strony głównej
         @GetMapping("/")
@@ -18,11 +28,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 
         // Obsługuje żądanie konfiguracji oferty wycieczek
         @PostMapping("/configure-offer")
-        public String configureOffer() {
-            System.out.println("/configureOffer()");
-            // Logika obsługi formularza konfiguracji oferty
-            return "redirect:/"; // Przekierowanie na stronę główną po zapisaniu konfiguracji
+        public String configureOffer(
+                @RequestParam("tourName") String tourName,
+                @RequestParam("tourDescription") String tourDescription,
+                @RequestParam("tourPrice") double tourPrice, // Użyj BigDecimal zamiast double
+                @RequestParam("tourDuration") int tourDuration,
+                @RequestParam("tourType") String tourType,
+                Model model
+        ) {
+            // Stworzenie nowej wycieczki na podstawie przekazanych parametrów
+            Tour tour = new Tour(tourName, tourDescription, tourPrice, tourDuration, tourType);
+
+            // Zapisanie wycieczki do bazy danych za pomocą repozytorium
+            tourRepository.save(tour);
+
+            // Dodanie odpowiedniej wiadomości do modelu, którą można wyświetlić na stronie
+            model.addAttribute("message", "Wycieczka została pomyślnie dodana.");
+
+            // Przekierowanie na stronę konfiguracji oferty lub inny widok, gdzie będzie wyświetlona lista wycieczek
+            return "configure-offer";
         }
+
 
         // Obsługuje żądanie wyszukiwania wycieczek
         @GetMapping("/search-tours")
