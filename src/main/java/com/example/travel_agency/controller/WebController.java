@@ -46,7 +46,7 @@ import java.math.BigDecimal;
             model.addAttribute("message", "Wycieczka została pomyślnie dodana.");
 
             // Przekierowanie na stronę konfiguracji oferty lub inny widok, gdzie będzie wyświetlona lista wycieczek
-            return "configure-offer";
+            return "index";
         }
 
 

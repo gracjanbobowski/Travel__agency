@@ -18,6 +18,7 @@ import java.util.Set;
 @Table
 public class User {
     @Id
+    private long userId;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private String username;
