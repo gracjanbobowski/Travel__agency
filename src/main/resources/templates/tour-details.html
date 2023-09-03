@@ -61,14 +61,17 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <img src="https://projektpauza.pl/wp-content/uploads/Wyspy-Tajlandii-Featured.jpg" class="tour-image" alt="Egzotyczna podróż">
+      <!-- Zaktualizowana linia kodu, aby wyświetlać obrazek wycieczki na podstawie bazy danych -->
+      <img src="../static/images/${tour.image}" class="tour-image" alt="${tour.tourName}">
     </div>
     <div class="col-md-6">
-      <h2 class="tour-title">Egzotyczna podróż</h2>
-      <p class="tour-text">Niezapomniana przygoda w odległych zakątkach świata.</p>
+      <!-- Zaktualizowane pola na podstawie danych z bazy danych -->
+      <h2 class="tour-title" th:text="${tour.tourName}">Egzotyczna podróż</h2>
+      <p class="tour-text" th:text="${tour.tourDescription}">Niezapomniana przygoda w odległych zakątkach świata.</p>
       <p class="tour-text">Podczas tej wycieczki będziesz miał/a okazję odkryć piękno egzotycznych wysp Tajlandii. Zanurz się w lokalnej kulturze, ciesz się wspaniałymi plażami i smakuj wyjątkową kuchnię.</p>
       <p class="tour-text">Zapewniamy komfortowe zakwaterowanie, profesjonalnego przewodnika oraz niezapomniane atrakcje.</p>
-      <p class="tour-price">Cena: $1999</p>
+      <!-- Zaktualizowane pole na podstawie danych z bazy danych -->
+      <p class="tour-price" th:text="${'Cena: $' + tour.tourPrice}">Cena: $1999</p>
       <a href="#" class="btn btn-primary">Zarezerwuj teraz</a>
     </div>
   </div>

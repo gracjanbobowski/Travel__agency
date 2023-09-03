@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Edycja Wycieczki</title>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">Edycja Wycieczki</h2>
+
+      <!-- Formularz edycji wycieczki -->
+      <form th:action="@{/update-tour}" method="post">
+        <!-- Dodaj pole dla CSRF tokena -->
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <!-- Pole dla ID wycieczki -->
+        <input type="hidden" id="tourId" name="tourId" th:value="${tour.tourId}" />
+
+        <div class="form-group">
+          <label for="tourName">Nazwa wycieczki</label>
+          <input type="text" class="form-control" id="tourName" name="tourName" th:value="${tour.tourName}" required>
+        </div>
+        <div class="form-group">
+          <label for="tourDescription">Opis wycieczki</label>
+          <textarea class="form-control" id="tourDescription" name="tourDescription" rows="3" required th:text="${tour.tourDescription}"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="tourPrice">Cena wycieczki</label>
+            <input type="number" class="form-control" id="tourPrice" name="tourPrice" th:value="${tour.tourPrice}" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="tourDuration">Czas trwania (ilość dni)</label>
+            <input type="number" class="form-control" id="tourDuration" name="tourDuration" th:value="${tour.tourDuration}" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="tourType">Typ wyżywienia</label>
+          <select class="form-control" id="tourType" name="tourType" required>
+            <option value="BB" th:selected="${tour.tourType == 'BB'}">Śniadanie (BB)</option>
+            <option value="HB" th:selected="${tour.tourType == 'HB'}">Śniadanie i obiadokolacja (HB)</option>
+            <option value="FB" th:selected="${tour.tourType == 'FB'}">Śniadanie, obiad i kolacja (FB)</option>
+            <option value="AI" th:selected="${tour.tourType == 'AI'}">All Inclusive (AI)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+      </form>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -11,8 +11,12 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <h2 class="mb-4">Konfigurowanie oferty wycieczek (administrator)</h2>
+
+      <!-- Wyświetl informację o sukcesie lub błędzie -->
+      <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
       <!-- Formularz konfiguracji oferty -->
-      <form th:action="@{/configure-offer}" method="post">
+      <form th:action="@{/add-tour}" method="post">
         <!-- Dodaj pole dla CSRF tokena -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
@@ -45,6 +49,35 @@
         </div>
         <button type="submit" class="btn btn-primary">Dodaj wycieczkę</button>
       </form>
+
+      <!-- Lista wycieczek -->
+      <h2 class="mt-5">Lista Wycieczek</h2>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Opis</th>
+          <th>Cena</th>
+          <th>Czas trwania</th>
+          <th>Typ wyżywienia</th>
+          <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iteruj przez wycieczki i wyświetl je w tabeli -->
+        <tr th:each="tour : ${tours}">
+          <td th:text="${tour.tourName}"></td>
+          <td th:text="${tour.tourDescription}"></td>
+          <td th:text="${tour.tourPrice}"></td>
+          <td th:text="${tour.tourDuration}"></td>
+          <td th:text="${tour.tourType}"></td>
+          <td>
+            <a th:href="@{/edit-tour/{tourId}(tourId=${tour.tourId})}" class="btn btn-primary">Edytuj</a>
+            <a th:href="@{/delete-tour/{tourId}(tourId=${tour.tourId})}" class="btn btn-danger">Usuń</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
