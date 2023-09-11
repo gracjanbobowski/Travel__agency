@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wyszukiwanie wycieczek</title>
+</head>
+<body>
+<h1>Wyszukiwanie wycieczek</h1>
+
+<form th:action="@{/search}" method="get">
+  <!-- Filtry wyszukiwania -->
+  <div>
+    <label for="departureCity">Miejsce wylotu:</label>
+    <input type="text" id="departureCity" name="departureCity">
+  </div>
+
+  <div>
+    <label for="destinationCity">Miejsce pobytu:</label>
+    <input type="text" id="destinationCity" name="destinationCity">
+  </div>
+
+  <div>
+    <label for="startDate">Data wyjazdu od:</label>
+    <input type="date" id="startDate" name="startDate">
+  </div>
+
+  <div>
+    <label for="endDate">Data powrotu do:</label>
+    <input type="date" id="endDate" name="endDate">
+  </div>
+
+  <div>
+    <label for="mealType">Typ wyżywienia:</label>
+    <select id="mealType" name="mealType">
+      <option value="BB">Śniadanie (BB)</option>
+      <option value="HB">Śniadanie i obiadokolacja (HB)</option>
+      <option value="FB">Śniadanie, obiad i kolacja (FB)</option>
+      <option value="AI">All Inclusive (AI)</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="hotelStandard">Standard hotelu:</label>
+    <select id="hotelStandard" name="hotelStandard">
+      <option value="1">1 gwiazdka</option>
+      <option value="2">2 gwiazdki</option>
+      <option value="3">3 gwiazdki</option>
+      <option value="4">4 gwiazdki</option>
+      <option value="5">5 gwiazdek</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="minDuration">Minimalna ilość dni:</label>
+    <input type="number" id="minDuration" name="minDuration">
+  </div>
+
+  <button type="submit">Szukaj</button>
+</form>
+
+<!-- Dodaj linki do sortowania -->
+<div>
+  <p>Sortuj według:</p>
+  <a th:href="@{/search?sort=price}">Ceny</a> |
+  <a th:href="@{/search?sort=departureDate}">Daty wylotu</a>
+</div>
+
+<!-- Wyświetl wyniki wyszukiwania -->
+<div>
+  <h2>Wyniki wyszukiwania:</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Nazwa wycieczki</th>
+      <th>Data wylotu</th>
+      <th>Cena</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iteracja po wynikach wyszukiwania -->
+    <tr th:each="tour : ${tours}">
+      <td th:text="${tour.name}"></td>
+      <td th:text="${#dates.format(tour.departureDate, 'dd.MM.yyyy')}"></td>
+      <td th:text="${tour.price}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

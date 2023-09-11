@@ -13,21 +13,16 @@ import lombok.ToString;
 @ToString
 public class City {
 
-
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long CityId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cityId;
+
     @NotEmpty
     private String cityName;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
     private Country country;
-
-    public City(long cityId, String cityName) {
-        CityId = cityId;
-        this.cityName = cityName;
-    }
 
     public City() {
     }

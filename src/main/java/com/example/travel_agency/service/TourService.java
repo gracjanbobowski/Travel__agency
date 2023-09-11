@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TourService {
@@ -22,8 +23,34 @@ public class TourService {
         tourRepository.save(tour);
     }
 
+    public Tour updateTour(Long tourId, String tourName, String tourDescription, double tourPrice, int tourDuration, String tourType) {
+        Optional<Tour> tourOptional = tourRepository.findById(tourId);
+        if (tourOptional.isPresent()) {
+            Tour tour = tourOptional.get();
+            tour.setTourName(tourName);
+            tour.setTourDescription(tourDescription);
+            tour.setTourPrice(tourPrice);
+            tour.setTourDuration(tourDuration);
+            tour.setTourType(tourType);
+            return tourRepository.save(tour);
+        } else {
+            throw new RuntimeException("Wycieczka o podanym ID nie istnieje.");
+        }
+    }
+
     public List<Tour> getAllTours() {
         return tourRepository.findAll();
     }
-}
 
+    public Optional<Tour> getTourById(Long tourId) {
+        return tourRepository.findById(tourId);
+    }
+
+    public void saveTour(Tour tour) {
+        tourRepository.save(tour);
+    }
+
+    public void deleteTour(Long tourId) {
+        tourRepository.deleteById(tourId);
+    }
+}

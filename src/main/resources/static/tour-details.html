@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Szczegóły wycieczki</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -61,17 +60,13 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <!-- Zaktualizowana linia kodu, aby wyświetlać obrazek wycieczki na podstawie bazy danych -->
-      <img src="../static/images/${tour.image}" class="tour-image" alt="${tour.tourName}">
+      <img src="../static/images/${tour.tourImage}" class="tour-image" alt="${tour.tourName}">
     </div>
     <div class="col-md-6">
-      <!-- Zaktualizowane pola na podstawie danych z bazy danych -->
-      <h2 class="tour-title" th:text="${tour.tourName}">Egzotyczna podróż</h2>
-      <p class="tour-text" th:text="${tour.tourDescription}">Niezapomniana przygoda w odległych zakątkach świata.</p>
+      <h2 class="tour-title" th:text="${tour.tourName}"></h2>
+      <p class="tour-text" th:text="${tour.tourDescription}"></p>
       <p class="tour-text">Podczas tej wycieczki będziesz miał/a okazję odkryć piękno egzotycznych wysp Tajlandii. Zanurz się w lokalnej kulturze, ciesz się wspaniałymi plażami i smakuj wyjątkową kuchnię.</p>
-      <p class="tour-text">Zapewniamy komfortowe zakwaterowanie, profesjonalnego przewodnika oraz niezapomniane atrakcje.</p>
-      <!-- Zaktualizowane pole na podstawie danych z bazy danych -->
-      <p class="tour-price" th:text="${'Cena: $' + tour.tourPrice}">Cena: $1999</p>
+      <p class="tour-price" th:text="${'Cena: $' + tour.tourPrice}"></p>
       <a href="#" class="btn btn-primary">Zarezerwuj teraz</a>
     </div>
   </div>

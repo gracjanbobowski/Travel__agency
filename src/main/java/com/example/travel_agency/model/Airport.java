@@ -13,8 +13,9 @@ import lombok.ToString;
 public class Airport {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long airportId;
+
     @NotEmpty
     private String airportName;
 
@@ -26,13 +27,28 @@ public class Airport {
     @JoinColumn(name = "city_id")
     private City city;
 
-    public Airport(Long airportId, String airportName, Country country, City city) {
-        this.airportId = airportId;
+    public Airport() {
+    }
+
+    public Airport(String airportName, Country country, City city) {
         this.airportName = airportName;
         this.country = country;
         this.city = city;
     }
 
-    public Airport() {
+    public String getCountryName() {
+        if (country != null) {
+            return country.getCountryName();
+        } else {
+            return null; // lub zwróć odpowiednią wartość, gdy country jest null
+        }
+    }
+
+    public String getCityName() {
+        if (city != null) {
+            return city.getCityName();
+        } else {
+            return null; // lub zwróć odpowiednią wartość, gdy city jest null
+        }
     }
 }

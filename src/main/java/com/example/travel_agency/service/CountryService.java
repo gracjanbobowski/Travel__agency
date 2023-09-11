@@ -5,33 +5,38 @@ import com.example.travel_agency.model.Country;
 import com.example.travel_agency.respositories.CountryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CountryService {
 
-    CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
-    Country country;
+    @Autowired
+    public CountryService(CountryRepository countryRepository) {
+        this.countryRepository = countryRepository;
+    }
 
-    @Transactional
     public void addCountry(Country country) {
         countryRepository.save(country);
     }
 
-    public  void removeCountry(Country country) { countryRepository.delete(country);}
-
-    public Country getOwnerById(long id) {
-        return countryRepository.findById(id).get();
+    public void removeCountry(Long id) {
+        countryRepository.deleteById(id);
     }
 
-    public List<Country> getAll() {
+    public Country getCountryById(Long id) {
+        return countryRepository.findById(id).orElse(null);
+    }
+
+    public List<Country> getAllCountries() {
         return countryRepository.findAll();
     }
 
-
-
+    public Country getCountryByName(String countryName) {
+        return countryRepository.findByCountryName(countryName);
+    }
 }

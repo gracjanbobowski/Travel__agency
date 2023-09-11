@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Lista Lotnisk</title>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mt-5">Lista Lotnisk</h2>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Nazwa lotniska</th>
+          <th>Kraj</th>
+          <th>Miasto</th>
+          <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="airport : ${airports}">
+          <td th:text="${airport.airportName}"></td>
+          <td th:text="${airport.country.countryName}"></td>
+          <td th:text="${airport.city.cityName}"></td>
+          <td>
+            <a th:href="@{'/airports/edit/' + airport.airportId}" class="btn btn-primary">Edytuj</a>
+            <a th:href="@{'/airports/delete/' + airport.airportId}" class="btn btn-danger">Usuń</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

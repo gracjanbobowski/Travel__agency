@@ -51,11 +51,11 @@
             <img src="https://www.aquariusspa.pl/wp-content/uploads/2015/03/aktywny-wypoczynek-nad-morzem-768x495.jpg" class="tour-image" alt="Aktywny wypoczynek">
         </div>
         <div class="col-md-6">
-            <h2 class="tour-title">Aktywny wypoczynek</h2>
-            <p class="tour-text">Zaplanuj aktywny urlop pełen przygód i sportowych atrakcji.</p>
-            <p class="tour-text">Podczas tej wycieczki będziesz miał/a okazję spędzić czas na aktywnościach i przygodach. Zajmij się sportem, odkrywaj nowe miejsca i ciesz się aktywnym wypoczynkiem.</p>
-            <p class="tour-text">Zapewniamy różnorodne atrakcje, profesjonalnych instruktorów oraz wygodne zakwaterowanie.</p>
-            <p class="tour-price">Cena: $1599</p>
+            <h2 class="tour-title" th:text="${tour.tourName}"></h2>
+            <p class="tour-text" th:text="${tour.tourDescription}"></p>
+            <p class="tour-details">Czas trwania (ilość dni): <span th:text="${tour.tourDuration}"></span></p>
+            <p class="tour-details">Typ wyżywienia: <span th:text="${tour.tourType}"></span></p>
+            <p class="tour-price">Cena: $<span th:text="${tour.tourPrice}"></span></p>
             <a href="#" class="btn btn-primary">Zarezerwuj teraz</a>
         </div>
     </div>
